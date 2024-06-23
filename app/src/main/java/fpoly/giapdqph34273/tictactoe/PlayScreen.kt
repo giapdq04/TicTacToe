@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -44,72 +45,82 @@ fun PlayScreen() {
 
     val p1w by remember { mutableStateOf("Player 1 win") }
     val p2w by remember { mutableStateOf("Player 2 win") }
+    val x by remember { mutableStateOf("x") }
+    val o by remember { mutableStateOf("o") }
 
     var playerSlot by remember { mutableStateOf(true) }
 
     var resutl by remember { mutableStateOf("") }
 
+    // load lại nếu có ô nào được tích
     LaunchedEffect(a1, a2, a3, b1, b2, b3, c1, c2, c3) {
-        if (a1.isNotEmpty() && a2.isNotEmpty() && a3.isNotEmpty() && b1.isNotEmpty() && b2.isNotEmpty() && b3.isNotEmpty() && c1.isNotEmpty() && c2.isNotEmpty() && c3.isNotEmpty()) {
+        if (a1 == x && a2 == a1 && a3 == a1) {
+            resutl = p1w
+        } else if (a1 == o && a2 == a1 && a3 == a1) {
+            resutl = p2w
+        } else if (b1 == x && b2 == b1 && b3 == b1) {
+            resutl = p1w
+        } else if (b1 == o && b2 == b1 && b3 == b1) {
+            resutl = p2w
+        } else if (c1 == x && c2 == c1 && c3 == c1) {
+            resutl = p1w
+        } else if (c1 == o && c2 == c1 && c3 == c1) {
+            resutl = p2w
+        } else if (a1 == x && b1 == a1 && c1 == a1) {
+            resutl = p1w
+        } else if (a1 == o && b1 == a1 && c1 == a1) {
+            resutl = p2w
+        } else if (a2 == x && b2 == a2 && c2 == a2) {
+            resutl = p1w
+        } else if (a2 == o && b2 == a2 && c2 == a2) {
+            resutl = p2w
+        } else if (a3 == x && b3 == a3 && c3 == a3) {
+            resutl = p1w
+        } else if (a3 == o && b3 == a3 && c3 == a3) {
+            resutl = p2w
+        } else if (a1 == x && b2 == a1 && c3 == a1) {
+            resutl = p1w
+        } else if (a1 == o && b2 == a1 && c3 == a1) {
+            resutl = p2w
+        } else if (a3 == x && b2 == a3 && c1 == a3) {
+            resutl = p1w
+        } else if (a3 == o && b2 == a3 && c1 == a3) {
+            resutl = p2w
+        } else if (a1.isNotEmpty() && a2.isNotEmpty() && a3.isNotEmpty() && b1.isNotEmpty() && b2.isNotEmpty() && b3.isNotEmpty() && c1.isNotEmpty() && c2.isNotEmpty() && c3.isNotEmpty()) {
             resutl = "Hòa"
-        } else if (a1 == "x" && a2 == a1 && a3 == a1) {
-            resutl = p1w
-        } else if (a1 == "o" && a2 == a1 && a3 == a1) {
-            resutl = p2w
-        } else if (b1 == "x" && b2 == b1 && b3 == b1) {
-            resutl = p1w
-        } else if (b1 == "o" && b2 == b1 && b3 == b1) {
-            resutl = p2w
-        } else if (c1 == "x" && c2 == c1 && c3 == c1) {
-            resutl = p1w
-        } else if (c1 == "o" && c2 == c1 && c3 == c1) {
-            resutl = p2w
-        } else if (a1 == "x" && b1 == a1 && c1 == a1) {
-            resutl = p1w
-        } else if (a1 == "o" && b1 == a1 && c1 == a1) {
-            resutl = p2w
-        } else if (a2 == "x" && b2 == a2 && c2 == a2) {
-            resutl = p1w
-        } else if (a2 == "o" && b2 == a2 && c2 == a2) {
-            resutl = p2w
-        } else if (a3 == "x" && b3 == a3 && c3 == a3) {
-            resutl = p1w
-        } else if (a3 == "o" && b3 == a3 && c3 == a3) {
-            resutl = p2w
-        } else if (a1 == "x" && b2 == a1 && c3 == a1) {
-            resutl = p1w
-        } else if (a1 == "o" && b2 == a1 && c3 == a1) {
-            resutl = p2w
-        } else if (a3 == "x" && b2 == a3 && c1 == a3) {
-            resutl = p1w
-        } else if (a3 == "o" && b2 == a3 && c1 == a3) {
-            resutl = p2w
         }
     }
-
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (resutl.isNotEmpty()) {
-            Text(
-                text = resutl,
-                fontSize = 60.sp,
-                color = if (resutl == p1w) Color.Blue else if (resutl == p2w) Color.Red else Color.Gray,
-                fontWeight = FontWeight(500),
-            )
-        }else{
-            Text(
-                text = "Lượt: ${
-                    if (playerSlot) "Player 1"
-                    else "Player 2"
-                }",
-                fontSize = 30.sp,
-                color = if (playerSlot) Color.Blue else Color.Red,
-                fontWeight = FontWeight(500)
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (resutl.isNotEmpty()) {
+                Text(
+                    text = resutl,
+                    fontSize = 60.sp,
+                    color = if (resutl == p1w) Color.Blue else if (resutl == p2w) Color.Red else Color.Gray,
+                    fontWeight = FontWeight(500),
+                )
+            } else {
+                Text(
+                    text = "Lượt: ${
+                        if (playerSlot) "Player 1"
+                        else "Player 2"
+                    }",
+                    fontSize = 30.sp,
+                    color = if (playerSlot) Color.Blue else Color.Red,
+                    fontWeight = FontWeight(500)
+                )
+            }
         }
         Column(
             modifier = Modifier
@@ -120,16 +131,19 @@ fun PlayScreen() {
             Row {
                 // c1
                 ViTri(c1) {
-                    // nếu ô trống thì mới cho đánh
-                    if (c1 == "") {
-                        // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                        if (playerSlot) {
-                            c1 = "x"
-                        } else {
-                            c1 = "o"
+                    // nếu kết quả rỗng thì mới cho đánh
+                    if (resutl == "") {
+                        // nếu ô trống thì mới cho đánh
+                        if (c1 == "") {
+                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                            if (playerSlot) {
+                                c1 = x
+                            } else {
+                                c1 = o
+                            }
+                            // đổi lượt
+                            playerSlot = !playerSlot
                         }
-                        // đổi lượt
-                        playerSlot = !playerSlot
                     }
 
                     // nếu ô đã đánh rồi thì không cho đánh
@@ -138,27 +152,29 @@ fun PlayScreen() {
 
                 // c2
                 ViTri(c2) {
-                    if (c2 == "") {
-                        if (playerSlot) {
-                            c2 = "x"
-                        } else {
-                            c2 = "o"
+                    if (resutl == "")
+                        if (c2 == "") {
+                            if (playerSlot) {
+                                c2 = x
+                            } else {
+                                c2 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // c3
                 ViTri(c3) {
-                    if (c3 == "") {
-                        if (playerSlot) {
-                            c3 = "x"
-                        } else {
-                            c3 = "o"
+                    if (resutl == "")
+                        if (c3 == "") {
+                            if (playerSlot) {
+                                c3 = x
+                            } else {
+                                c3 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
             }
 
@@ -166,40 +182,43 @@ fun PlayScreen() {
             Row {
                 // b1
                 ViTri(b1) {
-                    if (b1 == "") {
-                        if (playerSlot) {
-                            b1 = "x"
-                        } else {
-                            b1 = "o"
+                    if (resutl == "")
+                        if (b1 == "") {
+                            if (playerSlot) {
+                                b1 = x
+                            } else {
+                                b1 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // b2
                 ViTri(b2) {
-                    if (b2 == "") {
-                        if (playerSlot) {
-                            b2 = "x"
-                        } else {
-                            b2 = "o"
+                    if (resutl == "")
+                        if (b2 == "") {
+                            if (playerSlot) {
+                                b2 = x
+                            } else {
+                                b2 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // b3
                 ViTri(b3) {
-                    if (b3 == "") {
-                        if (playerSlot) {
-                            b3 = "x"
-                        } else {
-                            b3 = "o"
+                    if (resutl == "")
+                        if (b3 == "") {
+                            if (playerSlot) {
+                                b3 = x
+                            } else {
+                                b3 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
             }
 
@@ -207,68 +226,69 @@ fun PlayScreen() {
             Row {
                 // a1
                 ViTri(pot = a1) {
-                    if (a1 == "") {
-                        if (playerSlot) {
-                            a1 = "x"
-                        } else {
-                            a1 = "o"
+                    if (resutl == "")
+                        if (a1 == "") {
+                            if (playerSlot) {
+                                a1 = x
+                            } else {
+                                a1 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // a2
                 ViTri(pot = a2) {
-                    if (a2 == "") {
-                        if (playerSlot) {
-                            a2 = "x"
-                        } else {
-                            a2 = "o"
+                    if (resutl == "")
+                        if (a2 == "") {
+                            if (playerSlot) {
+                                a2 = x
+                            } else {
+                                a2 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
-
                 // a3
                 ViTri(pot = a3) {
-                    if (a3 == "") {
-                        if (playerSlot) {
-                            a3 = "x"
-                        } else {
-                            a3 = "o"
+                    if (resutl == "")
+                        if (a3 == "") {
+                            if (playerSlot) {
+                                a3 = x
+                            } else {
+                                a3 = o
+                            }
+                            playerSlot = !playerSlot
                         }
-                        playerSlot = !playerSlot
-                    }
                 }
             }
         }
 
-//        if (resutl.isEmpty()){
-//            Text(
-//                text = "Lượt: ${
-//                    if (playerSlot) "Player 1"
-//                    else "Player 2"
-//                }",
-//                fontSize = 30.sp,
-//                color = if (playerSlot) Color.Blue else Color.Red,
-//                fontWeight = FontWeight(500)
-//            )
-//        }
-
-        if (resutl.isNotEmpty()) {
-            Button(onClick = {
-                a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
-                ""; resutl = "";playerSlot = true
-            }) {
-                Text(
-                    text = "Reset",
-                    fontSize = 30.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight(500),
-                )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (resutl.isNotEmpty()) {
+                Button(onClick = {
+                    a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
+                    ""; resutl = "";playerSlot = true
+                }) {
+                    Text(
+                        text = "Reset",
+                        fontSize = 30.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight(500),
+                    )
+                }
+            } else {
+                Spacer(modifier = Modifier.width(50.dp))
             }
+
         }
     }
 }
