@@ -28,6 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 @Preview(showBackground = true)
@@ -107,7 +111,7 @@ fun PlayScreen() {
                 Text(
                     text = resutl,
                     fontSize = 60.sp,
-                    color = if (resutl == p1w) Color.Blue else if (resutl == p2w) Color.Red else Color.Gray,
+                    color = if (resutl == p1w) Color("#F24D4F".toColorInt()) else if (resutl == p2w) Color("#4285F4".toColorInt()) else Color.Gray,
                     fontWeight = FontWeight(500),
                 )
             } else {
@@ -117,7 +121,7 @@ fun PlayScreen() {
                         else "Player 2"
                     }",
                     fontSize = 30.sp,
-                    color = if (playerSlot) Color.Blue else Color.Red,
+                    color = if (playerSlot) Color("#F24D4F".toColorInt()) else Color("#4285F4".toColorInt()),
                     fontWeight = FontWeight(500)
                 )
             }
@@ -297,20 +301,22 @@ fun PlayScreen() {
 fun ViTri(pot: String, onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        modifier = Modifier.size(100.dp)
+        modifier = Modifier.size(100.dp),
     ) {
-        if (pot == "x") {
-            Image(
-                painter = painterResource(id = R.drawable.x_icon),
-                contentDescription = null
-            )
-        } else if (pot == "o") {
-            Image(
-                painter = painterResource(id = R.drawable.o_icon),
-                contentDescription = null
-            )
-        } else {
-            Spacer(modifier = Modifier.background(Color.White))
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (pot == "x") {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.x_animation))
+                LottieAnimation(composition)
+            } else if (pot == "o") {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.o_animation))
+                LottieAnimation(composition)
+            } else {
+                Spacer(modifier = Modifier.background(Color.White))
+            }
         }
     }
 }
