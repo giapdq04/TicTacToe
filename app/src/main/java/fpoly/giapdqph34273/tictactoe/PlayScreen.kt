@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,43 +42,48 @@ fun PlayScreen() {
     var c2 by remember { mutableStateOf("") }
     var c3 by remember { mutableStateOf("") }
 
+    val p1w by remember { mutableStateOf("Player 1 win") }
+    val p2w by remember { mutableStateOf("Player 2 win") }
+
     var playerSlot by remember { mutableStateOf(true) }
 
     var resutl by remember { mutableStateOf("") }
 
     LaunchedEffect(a1, a2, a3, b1, b2, b3, c1, c2, c3) {
-        if (a1 == "x" && a2 == a1 && a3 == a1) {
-            resutl = "Player 1 win"
+        if (a1.isNotEmpty() && a2.isNotEmpty() && a3.isNotEmpty() && b1.isNotEmpty() && b2.isNotEmpty() && b3.isNotEmpty() && c1.isNotEmpty() && c2.isNotEmpty() && c3.isNotEmpty()) {
+            resutl = "Hòa"
+        } else if (a1 == "x" && a2 == a1 && a3 == a1) {
+            resutl = p1w
         } else if (a1 == "o" && a2 == a1 && a3 == a1) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (b1 == "x" && b2 == b1 && b3 == b1) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (b1 == "o" && b2 == b1 && b3 == b1) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (c1 == "x" && c2 == c1 && c3 == c1) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (c1 == "o" && c2 == c1 && c3 == c1) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (a1 == "x" && b1 == a1 && c1 == a1) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (a1 == "o" && b1 == a1 && c1 == a1) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (a2 == "x" && b2 == a2 && c2 == a2) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (a2 == "o" && b2 == a2 && c2 == a2) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (a3 == "x" && b3 == a3 && c3 == a3) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (a3 == "o" && b3 == a3 && c3 == a3) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (a1 == "x" && b2 == a1 && c3 == a1) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (a1 == "o" && b2 == a1 && c3 == a1) {
-            resutl = "Player 2 win"
+            resutl = p2w
         } else if (a3 == "x" && b2 == a3 && c1 == a3) {
-            resutl = "Player 1 win"
+            resutl = p1w
         } else if (a3 == "o" && b2 == a3 && c1 == a3) {
-            resutl = "Player 2 win"
+            resutl = p2w
         }
     }
 
@@ -87,12 +93,24 @@ fun PlayScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = resutl,
-            fontSize = 60.sp,
-            color = if (resutl == "Player 1 win") Color.Blue else Color.Red,
-            fontWeight = FontWeight(500),
-        )
+        if (resutl.isNotEmpty()) {
+            Text(
+                text = resutl,
+                fontSize = 60.sp,
+                color = if (resutl == p1w) Color.Blue else if (resutl == p2w) Color.Red else Color.Gray,
+                fontWeight = FontWeight(500),
+            )
+        }else{
+            Text(
+                text = "Lượt: ${
+                    if (playerSlot) "Player 1"
+                    else "Player 2"
+                }",
+                fontSize = 30.sp,
+                color = if (playerSlot) Color.Blue else Color.Red,
+                fontWeight = FontWeight(500)
+            )
+        }
         Column(
             modifier = Modifier
                 .height(320.dp),
@@ -100,204 +118,179 @@ fun PlayScreen() {
         ) {
             // hàng 3
             Row {
-
                 // c1
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (c1 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (c1 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(c1) {
+                    // nếu ô trống thì mới cho đánh
+                    if (c1 == "") {
+                        // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                        if (playerSlot) {
+                            c1 = "x"
+                        } else {
+                            c1 = "o"
+                        }
+                        // đổi lượt
+                        playerSlot = !playerSlot
                     }
-                }
 
+                    // nếu ô đã đánh rồi thì không cho đánh
+                }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // c2
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (c2 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (c2 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(c2) {
+                    if (c2 == "") {
+                        if (playerSlot) {
+                            c2 = "x"
+                        } else {
+                            c2 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // c3
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (c3 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (c3 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(c3) {
+                    if (c3 == "") {
+                        if (playerSlot) {
+                            c3 = "x"
+                        } else {
+                            c3 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
             }
 
             // hàng 2
             Row {
-
                 // b1
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (b1 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (b1 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(b1) {
+                    if (b1 == "") {
+                        if (playerSlot) {
+                            b1 = "x"
+                        } else {
+                            b1 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
-
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // b2
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (b2 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (b2 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(b2) {
+                    if (b2 == "") {
+                        if (playerSlot) {
+                            b2 = "x"
+                        } else {
+                            b2 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // b3
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (b3 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (b3 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(b3) {
+                    if (b3 == "") {
+                        if (playerSlot) {
+                            b3 = "x"
+                        } else {
+                            b3 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
             }
 
             // hàng 1
             Row {
-
                 // a1
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (a1 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (a1 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(pot = a1) {
+                    if (a1 == "") {
+                        if (playerSlot) {
+                            a1 = "x"
+                        } else {
+                            a1 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
-
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // a2
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (a2 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (a2 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(pot = a2) {
+                    if (a2 == "") {
+                        if (playerSlot) {
+                            a2 = "x"
+                        } else {
+                            a2 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
                 Spacer(modifier = Modifier.width(10.dp))
 
                 // a3
-                Card(
-                    onClick = {},
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    if (a3 == "x") {
-                        Image(
-                            painter = painterResource(id = R.drawable.x_icon),
-                            contentDescription = null
-                        )
-                    } else if (a3 == "o") {
-                        Image(
-                            painter = painterResource(id = R.drawable.o_icon),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.background(Color.White))
+                ViTri(pot = a3) {
+                    if (a3 == "") {
+                        if (playerSlot) {
+                            a3 = "x"
+                        } else {
+                            a3 = "o"
+                        }
+                        playerSlot = !playerSlot
                     }
                 }
             }
+        }
+
+//        if (resutl.isEmpty()){
+//            Text(
+//                text = "Lượt: ${
+//                    if (playerSlot) "Player 1"
+//                    else "Player 2"
+//                }",
+//                fontSize = 30.sp,
+//                color = if (playerSlot) Color.Blue else Color.Red,
+//                fontWeight = FontWeight(500)
+//            )
+//        }
+
+        if (resutl.isNotEmpty()) {
+            Button(onClick = {
+                a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
+                ""; resutl = "";playerSlot = true
+            }) {
+                Text(
+                    text = "Reset",
+                    fontSize = 30.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight(500),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ViTri(pot: String, onClick: () -> Unit) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.size(100.dp)
+    ) {
+        if (pot == "x") {
+            Image(
+                painter = painterResource(id = R.drawable.x_icon),
+                contentDescription = null
+            )
+        } else if (pot == "o") {
+            Image(
+                painter = painterResource(id = R.drawable.o_icon),
+                contentDescription = null
+            )
+        } else {
+            Spacer(modifier = Modifier.background(Color.White))
         }
     }
 }
