@@ -1,6 +1,5 @@
 package fpoly.giapdqph34273.tictactoe
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +31,10 @@ import androidx.core.graphics.toColorInt
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true)
@@ -111,7 +114,9 @@ fun PlayScreen() {
                 Text(
                     text = resutl,
                     fontSize = 60.sp,
-                    color = if (resutl == p1w) Color("#F24D4F".toColorInt()) else if (resutl == p2w) Color("#4285F4".toColorInt()) else Color.Gray,
+                    color = if (resutl == p1w) Color("#F24D4F".toColorInt()) else if (resutl == p2w) Color(
+                        "#4285F4".toColorInt()
+                    ) else Color.Gray,
                     fontWeight = FontWeight(500),
                 )
             } else {
@@ -287,17 +292,35 @@ fun PlayScreen() {
             horizontalArrangement = Arrangement.Center
         ) {
             if (resutl.isNotEmpty()) {
-                Button(onClick = {
-                    a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
-                    ""; resutl = "";playerSlot = true
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.reset_animation))
+                var isPlaying by remember { mutableStateOf(false) }
+                OutlinedButton(
+                    enabled = !isPlaying,
+                    onClick = {
+                    isPlaying = true
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(800)
+                        a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
+                        ""; resutl = "";playerSlot = true;
+                    }
                 }) {
-                    Text(
-                        text = "Reset",
-                        fontSize = 30.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight(500),
-                    )
+                    if (isPlaying){
+                        LottieAnimation(
+                            composition,
+                            modifier = Modifier.size(40.dp),
+                            isPlaying = isPlaying
+                        )
+                    }else{
+                        Text(
+                            text = "Reset",
+                            fontSize = 30.sp,
+                            color = Color("#4285F4".toColorInt()),
+                            fontWeight = FontWeight(500),
+                        )
+                    }
                 }
+
+
             } else {
                 Spacer(modifier = Modifier.width(50.dp))
             }

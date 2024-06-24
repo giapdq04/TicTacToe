@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fpoly.giapdqph34273.tictactoe.PlayScreen
 import fpoly.giapdqph34273.tictactoe.WelcomeScreen
-import fpoly.giapdqph34273.tictactoe.navigation.Screen
 
 @Composable
 fun ScreenNavigation() {
