@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,24 +41,24 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true)
 fun PlayScreen() {
 
-    var a1 by remember { mutableStateOf("") }
-    var a2 by remember { mutableStateOf("") }
-    var a3 by remember { mutableStateOf("") }
-    var b1 by remember { mutableStateOf("") }
-    var b2 by remember { mutableStateOf("") }
-    var b3 by remember { mutableStateOf("") }
-    var c1 by remember { mutableStateOf("") }
-    var c2 by remember { mutableStateOf("") }
-    var c3 by remember { mutableStateOf("") }
+    var a1 by rememberSaveable { mutableStateOf("") }
+    var a2 by rememberSaveable { mutableStateOf("") }
+    var a3 by rememberSaveable { mutableStateOf("") }
+    var b1 by rememberSaveable { mutableStateOf("") }
+    var b2 by rememberSaveable { mutableStateOf("") }
+    var b3 by rememberSaveable { mutableStateOf("") }
+    var c1 by rememberSaveable { mutableStateOf("") }
+    var c2 by rememberSaveable { mutableStateOf("") }
+    var c3 by rememberSaveable { mutableStateOf("") }
 
-    val p1w by remember { mutableStateOf("Player 1 win") }
-    val p2w by remember { mutableStateOf("Player 2 win") }
-    val x by remember { mutableStateOf("x") }
-    val o by remember { mutableStateOf("o") }
+    val p1w by rememberSaveable { mutableStateOf("Player 1 win") }
+    val p2w by rememberSaveable { mutableStateOf("Player 2 win") }
+    val x by rememberSaveable { mutableStateOf("x") }
+    val o by rememberSaveable { mutableStateOf("o") }
 
-    var playerSlot by remember { mutableStateOf(true) }
+    var playerSlot by rememberSaveable { mutableStateOf(true) }
 
-    var resutl by remember { mutableStateOf("") }
+    var resutl by rememberSaveable { mutableStateOf("") }
 
     // load lại nếu có ô nào được tích
     LaunchedEffect(a1, a2, a3, b1, b2, b3, c1, c2, c3) {
@@ -293,7 +294,7 @@ fun PlayScreen() {
         ) {
             if (resutl.isNotEmpty()) {
                 val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.reset_animation))
-                var isPlaying by remember { mutableStateOf(false) }
+                var isPlaying by rememberSaveable { mutableStateOf(false) }
                 OutlinedButton(
                     enabled = !isPlaying,
                     onClick = {
