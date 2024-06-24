@@ -115,15 +115,24 @@ fun PlayScreen() {
                     fontWeight = FontWeight(500),
                 )
             } else {
-                Text(
-                    text = "Lượt: ${
-                        if (playerSlot) "Player 1"
-                        else "Player 2"
-                    }",
-                    fontSize = 30.sp,
-                    color = if (playerSlot) Color("#F24D4F".toColorInt()) else Color("#4285F4".toColorInt()),
-                    fontWeight = FontWeight(500)
-                )
+                Row {
+                    Text(
+                        text = "Lượt: ${
+                            if (playerSlot) "Player 1  "
+                            else "Player 2  "
+                        }",
+                        fontSize = 30.sp,
+                        color = if (playerSlot) Color("#F24D4F".toColorInt()) else Color("#4285F4".toColorInt()),
+                        fontWeight = FontWeight(500)
+                    )
+
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(if (playerSlot) R.raw.x_animation else R.raw.o_animation))
+                    LottieAnimation(
+                        composition = composition,
+                        modifier = Modifier
+                            .size(35.dp)
+                    )
+                }
             }
         }
         Column(
