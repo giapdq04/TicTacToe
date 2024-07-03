@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import fpoly.giapdqph34273.tictactoe.PlayScreen
+import fpoly.giapdqph34273.tictactoe.FiveTimesFive
+import fpoly.giapdqph34273.tictactoe.Option
+import fpoly.giapdqph34273.tictactoe.ThreeTimesThree
 import fpoly.giapdqph34273.tictactoe.WelcomeScreen
 
 @Composable
@@ -18,8 +20,14 @@ fun ScreenNavigation() {
         composable(Screen.Welcome.route) {
             WelcomeScreen(navController)
         }
-        composable(Screen.Play.route) {
-            PlayScreen()
+        composable(Screen.Three.route) {
+            ThreeTimesThree()
+        }
+        composable(Screen.Five.route) {
+            FiveTimesFive()
+        }
+        composable(Screen.Option.route) {
+            Option(navController)
         }
     }
 }

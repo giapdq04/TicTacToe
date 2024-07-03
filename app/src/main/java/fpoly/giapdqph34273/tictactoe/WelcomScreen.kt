@@ -20,7 +20,7 @@ fun WelcomeScreen(navController: NavController? = null) {
         val progress by animateLottieCompositionAsState(composition)
         LaunchedEffect(progress) {
             if (progress == 1f) {
-                navController?.navigate(Screen.Play.route)
+                navController?.navigate(Screen.Option.route)
             }
         }
         LottieAnimation(

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -18,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true)
-fun PlayScreen() {
+fun ThreeTimesThree() {
 
     var a1 by rememberSaveable { mutableStateOf("") }
     var a2 by rememberSaveable { mutableStateOf("") }
@@ -302,7 +300,7 @@ fun PlayScreen() {
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(800)
                         a1 = ""; a2 = ""; a3 = ""; b1 = ""; b2 = ""; b3 = ""; c1 = ""; c2 = ""; c3 =
-                        ""; resutl = "";playerSlot = true;
+                        ""; resutl = "";playerSlot = true
                     }
                 }) {
                     if (isPlaying){
@@ -331,7 +329,7 @@ fun PlayScreen() {
 }
 
 @Composable
-fun ViTri(pot: String, onClick: () -> Unit) {
+private fun ViTri(pot: String, onClick: () -> Unit) {
     Card(
         onClick = onClick,
         modifier = Modifier.size(100.dp),
