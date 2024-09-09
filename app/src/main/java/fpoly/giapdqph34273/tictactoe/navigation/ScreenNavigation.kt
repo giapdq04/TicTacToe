@@ -21,10 +21,10 @@ fun ScreenNavigation() {
             WelcomeScreen(navController)
         }
         composable(Screen.Three.route) {
-            ThreeTimesThree()
+            ThreeTimesThree(navController)
         }
         composable(Screen.Five.route) {
-            FiveTimesFive()
+            FiveTimesFive(navController)
         }
         composable(Screen.Option.route) {
             Option(navController)

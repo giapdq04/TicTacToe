@@ -2,15 +2,21 @@ package fpoly.giapdqph34273.tictactoe
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -37,7 +44,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true)
-fun FiveTimesFive() {
+fun FiveTimesFive(navController:NavController? = null) {
 
     var a1 by rememberSaveable { mutableStateOf("") }
     var a2 by rememberSaveable { mutableStateOf("") }
@@ -303,829 +310,843 @@ fun FiveTimesFive() {
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+    Box {
+        IconButton(
+            onClick = {
+                navController?.popBackStack()
+            },
+            modifier = Modifier.offset(x = 20.dp, y = 30.dp)
         ) {
-            if (resutl.isNotEmpty()) {
-                Text(
-                    text = resutl,
-                    fontSize = 60.sp,
-                    color = if (resutl == p1w) Color("#F24D4F".toColorInt()) else if (resutl == p2w) Color(
-                        "#4285F4".toColorInt()
-                    ) else Color.Gray,
-                    fontWeight = FontWeight(500),
-                )
-            } else {
-                Row {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null,
+                Modifier.size(30.dp)
+            )
+        }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (resutl.isNotEmpty()) {
                     Text(
-                        text = "Lượt: ${
-                            if (playerSlot) "Player 1  "
-                            else "Player 2  "
-                        }",
-                        fontSize = 30.sp,
-                        color = if (playerSlot) Color("#F24D4F".toColorInt()) else Color("#4285F4".toColorInt()),
-                        fontWeight = FontWeight(500)
+                        text = resutl,
+                        fontSize = 60.sp,
+                        color = if (resutl == p1w) Color("#F24D4F".toColorInt()) else if (resutl == p2w) Color(
+                            "#4285F4".toColorInt()
+                        ) else Color.Gray,
+                        fontWeight = FontWeight(500),
                     )
-
-                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(if (playerSlot) R.raw.x_animation else R.raw.o_animation))
-                    LottieAnimation(
-                        composition = composition,
-                        modifier = Modifier
-                            .size(35.dp)
-                    )
-                }
-            }
-        }
-        Column(
-            modifier = Modifier
-                .height(400.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            // hàng 7
-            Row {
-                // a7
-                ViTri(a7) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a7 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a7 = x
-                            } else {
-                                a7 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b7
-                ViTri(b7) {
-                    if (resutl == "")
-                        if (b7 == "") {
-                            if (playerSlot) {
-                                b7 = x
-                            } else {
-                                b7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c7
-                ViTri(c7) {
-                    if (resutl == "")
-                        if (c7 == "") {
-                            if (playerSlot) {
-                                c7 = x
-                            } else {
-                                c7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d7) {
-                    if (resutl == "")
-                        if (d7 == "") {
-                            if (playerSlot) {
-                                d7 = x
-                            } else {
-                                d7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e7) {
-                    if (resutl == "")
-                        if (e7 == "") {
-                            if (playerSlot) {
-                                e7 = x
-                            } else {
-                                e7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f7) {
-                    if (resutl == "")
-                        if (f7 == "") {
-                            if (playerSlot) {
-                                f7 = x
-                            } else {
-                                f7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g7) {
-                    if (resutl == "")
-                        if (g7 == "") {
-                            if (playerSlot) {
-                                g7 = x
-                            } else {
-                                g7 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 6
-            Row {
-                // a6
-                ViTri(a6) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a6 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a6 = x
-                            } else {
-                                a6 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b6
-                ViTri(b6) {
-                    if (resutl == "")
-                        if (b6 == "") {
-                            if (playerSlot) {
-                                b6 = x
-                            } else {
-                                b6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c6
-                ViTri(c6) {
-                    if (resutl == "")
-                        if (c6 == "") {
-                            if (playerSlot) {
-                                c6 = x
-                            } else {
-                                c6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d6) {
-                    if (resutl == "")
-                        if (d6 == "") {
-                            if (playerSlot) {
-                                d6 = x
-                            } else {
-                                d6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e6) {
-                    if (resutl == "")
-                        if (e6 == "") {
-                            if (playerSlot) {
-                                e6 = x
-                            } else {
-                                e6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f6) {
-                    if (resutl == "")
-                        if (f6 == "") {
-                            if (playerSlot) {
-                                f6 = x
-                            } else {
-                                f6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g6) {
-                    if (resutl == "")
-                        if (g6 == "") {
-                            if (playerSlot) {
-                                g6 = x
-                            } else {
-                                g6 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 5
-            Row {
-                // a5
-                ViTri(a5) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a5 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a5 = x
-                            } else {
-                                a5 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b5
-                ViTri(b5) {
-                    if (resutl == "")
-                        if (b5 == "") {
-                            if (playerSlot) {
-                                b5 = x
-                            } else {
-                                b5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c5
-                ViTri(c5) {
-                    if (resutl == "")
-                        if (c5 == "") {
-                            if (playerSlot) {
-                                c5 = x
-                            } else {
-                                c5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d5) {
-                    if (resutl == "")
-                        if (d5 == "") {
-                            if (playerSlot) {
-                                d5 = x
-                            } else {
-                                d5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e5) {
-                    if (resutl == "")
-                        if (e5 == "") {
-                            if (playerSlot) {
-                                e5 = x
-                            } else {
-                                e5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f5) {
-                    if (resutl == "")
-                        if (f5 == "") {
-                            if (playerSlot) {
-                                f5 = x
-                            } else {
-                                f5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g5) {
-                    if (resutl == "")
-                        if (g5 == "") {
-                            if (playerSlot) {
-                                g5 = x
-                            } else {
-                                g5 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 4
-            Row {
-                // a4
-                ViTri(a4) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a4 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a4 = x
-                            } else {
-                                a4 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b4
-                ViTri(b4) {
-                    if (resutl == "")
-                        if (b4 == "") {
-                            if (playerSlot) {
-                                b4 = x
-                            } else {
-                                b4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c4
-                ViTri(c4) {
-                    if (resutl == "")
-                        if (c4 == "") {
-                            if (playerSlot) {
-                                c4 = x
-                            } else {
-                                c4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d4) {
-                    if (resutl == "")
-                        if (d4 == "") {
-                            if (playerSlot) {
-                                d4 = x
-                            } else {
-                                d4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e4) {
-                    if (resutl == "")
-                        if (e4 == "") {
-                            if (playerSlot) {
-                                e4 = x
-                            } else {
-                                e4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f4) {
-                    if (resutl == "")
-                        if (f4 == "") {
-                            if (playerSlot) {
-                                f4 = x
-                            } else {
-                                f4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g4) {
-                    if (resutl == "")
-                        if (g4 == "") {
-                            if (playerSlot) {
-                                g4 = x
-                            } else {
-                                g4 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 3
-            Row {
-                // a3
-                ViTri(a3) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a3 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a3 = x
-                            } else {
-                                a3 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b3
-                ViTri(b3) {
-                    if (resutl == "")
-                        if (b3 == "") {
-                            if (playerSlot) {
-                                b3 = x
-                            } else {
-                                b3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c3
-                ViTri(c3) {
-                    if (resutl == "")
-                        if (c3 == "") {
-                            if (playerSlot) {
-                                c3 = x
-                            } else {
-                                c3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d3) {
-                    if (resutl == "")
-                        if (d3 == "") {
-                            if (playerSlot) {
-                                d3 = x
-                            } else {
-                                d3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e3) {
-                    if (resutl == "")
-                        if (e3 == "") {
-                            if (playerSlot) {
-                                e3 = x
-                            } else {
-                                e3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f3) {
-                    if (resutl == "")
-                        if (f3 == "") {
-                            if (playerSlot) {
-                                f3 = x
-                            } else {
-                                f3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g3) {
-                    if (resutl == "")
-                        if (g3 == "") {
-                            if (playerSlot) {
-                                g3 = x
-                            } else {
-                                g3 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 2
-            Row {
-                // a2
-                ViTri(a2) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a2 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a2 = x
-                            } else {
-                                a2 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b2
-                ViTri(b2) {
-                    if (resutl == "")
-                        if (b2 == "") {
-                            if (playerSlot) {
-                                b2 = x
-                            } else {
-                                b2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c2
-                ViTri(c2) {
-                    if (resutl == "")
-                        if (c2 == "") {
-                            if (playerSlot) {
-                                c2 = x
-                            } else {
-                                c2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d2) {
-                    if (resutl == "")
-                        if (d2 == "") {
-                            if (playerSlot) {
-                                d2 = x
-                            } else {
-                                d2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e2) {
-                    if (resutl == "")
-                        if (e2 == "") {
-                            if (playerSlot) {
-                                e2 = x
-                            } else {
-                                e2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f2) {
-                    if (resutl == "")
-                        if (f2 == "") {
-                            if (playerSlot) {
-                                f2 = x
-                            } else {
-                                f2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g2) {
-                    if (resutl == "")
-                        if (g2 == "") {
-                            if (playerSlot) {
-                                g2 = x
-                            } else {
-                                g2 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-
-            // hàng 1
-            Row {
-                // a1
-                ViTri(a1) {
-                    // nếu kết quả rỗng thì mới cho đánh
-                    if (resutl == "") {
-                        // nếu ô trống thì mới cho đánh
-                        if (a1 == "") {
-                            // nếu lượt của player 1 thì đánh x, ngược lại đánh o
-                            if (playerSlot) {
-                                a1 = x
-                            } else {
-                                a1 = o
-                            }
-                            // đổi lượt
-                            playerSlot = !playerSlot
-                        }
-                    }
-
-                    // nếu ô đã đánh rồi thì không cho đánh
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // b1
-                ViTri(b1) {
-                    if (resutl == "")
-                        if (b1 == "") {
-                            if (playerSlot) {
-                                b1 = x
-                            } else {
-                                b1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                // c1
-                ViTri(c1) {
-                    if (resutl == "")
-                        if (c1 == "") {
-                            if (playerSlot) {
-                                c1 = x
-                            } else {
-                                c1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(d1) {
-                    if (resutl == "")
-                        if (d1 == "") {
-                            if (playerSlot) {
-                                d1 = x
-                            } else {
-                                d1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(e1) {
-                    if (resutl == "")
-                        if (e1 == "") {
-                            if (playerSlot) {
-                                e1 = x
-                            } else {
-                                e1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(f1) {
-                    if (resutl == "")
-                        if (f1 == "") {
-                            if (playerSlot) {
-                                f1 = x
-                            } else {
-                                f1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-
-                ViTri(g1) {
-                    if (resutl == "")
-                        if (g1 == "") {
-                            if (playerSlot) {
-                                g1 = x
-                            } else {
-                                g1 = o
-                            }
-                            playerSlot = !playerSlot
-                        }
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            if (resutl.isNotEmpty()) {
-                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.reset_animation))
-                var isPlaying by rememberSaveable { mutableStateOf(false) }
-                OutlinedButton(
-                    enabled = !isPlaying,
-                    onClick = {
-                        isPlaying = true
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(800)
-                            a1 = "";a2 = "";a3 = "";a4 = "";a5 = "";a6 = "";a7 = ""
-                            b1 = "";b2 = "";b3 = "";b4 = "";b5 = "";b6 = "";b7 = ""
-                            c1 = "";c2 = "";c3 = "";c4 = "";c5 = "";c6 = "";c7 = ""
-                            d1 = "";d2 = "";d3 = "";d4 = "";d5 = "";d6 = "";d7 = ""
-                            e1 = "";e2 = "";e3 = "";e4 = "";e5 = "";e6 = "";e7 = ""
-                            f1 = "";f2 = "";f3 = "";f4 = "";f5 = "";f6 = "";f7 = ""
-                            g1 = "";g2 = "";g3 = "";g4 = "";g5 = "";g6 = "";g7 = ""
-                            resutl = "";playerSlot = true
-                        }
-                    }) {
-                    if (isPlaying) {
-                        LottieAnimation(
-                            composition,
-                            modifier = Modifier.size(40.dp),
-                            isPlaying = isPlaying
-                        )
-                    } else {
+                } else {
+                    Row {
                         Text(
-                            text = "Reset",
+                            text = "Lượt: ${
+                                if (playerSlot) "Player 1  "
+                                else "Player 2  "
+                            }",
                             fontSize = 30.sp,
-                            color = Color("#4285F4".toColorInt()),
-                            fontWeight = FontWeight(500),
+                            color = if (playerSlot) Color("#F24D4F".toColorInt()) else Color("#4285F4".toColorInt()),
+                            fontWeight = FontWeight(500)
+                        )
+
+                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(if (playerSlot) R.raw.x_animation else R.raw.o_animation))
+                        LottieAnimation(
+                            composition = composition,
+                            modifier = Modifier
+                                .size(35.dp)
                         )
                     }
                 }
+            }
+            Column(
+                modifier = Modifier
+                    .height(400.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // hàng 7
+                Row {
+                    // a7
+                    ViTri(a7) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a7 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a7 = x
+                                } else {
+                                    a7 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
 
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
 
-            } else {
-                Spacer(modifier = Modifier.width(50.dp))
+                    // b7
+                    ViTri(b7) {
+                        if (resutl == "")
+                            if (b7 == "") {
+                                if (playerSlot) {
+                                    b7 = x
+                                } else {
+                                    b7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c7
+                    ViTri(c7) {
+                        if (resutl == "")
+                            if (c7 == "") {
+                                if (playerSlot) {
+                                    c7 = x
+                                } else {
+                                    c7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d7) {
+                        if (resutl == "")
+                            if (d7 == "") {
+                                if (playerSlot) {
+                                    d7 = x
+                                } else {
+                                    d7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e7) {
+                        if (resutl == "")
+                            if (e7 == "") {
+                                if (playerSlot) {
+                                    e7 = x
+                                } else {
+                                    e7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f7) {
+                        if (resutl == "")
+                            if (f7 == "") {
+                                if (playerSlot) {
+                                    f7 = x
+                                } else {
+                                    f7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g7) {
+                        if (resutl == "")
+                            if (g7 == "") {
+                                if (playerSlot) {
+                                    g7 = x
+                                } else {
+                                    g7 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 6
+                Row {
+                    // a6
+                    ViTri(a6) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a6 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a6 = x
+                                } else {
+                                    a6 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b6
+                    ViTri(b6) {
+                        if (resutl == "")
+                            if (b6 == "") {
+                                if (playerSlot) {
+                                    b6 = x
+                                } else {
+                                    b6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c6
+                    ViTri(c6) {
+                        if (resutl == "")
+                            if (c6 == "") {
+                                if (playerSlot) {
+                                    c6 = x
+                                } else {
+                                    c6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d6) {
+                        if (resutl == "")
+                            if (d6 == "") {
+                                if (playerSlot) {
+                                    d6 = x
+                                } else {
+                                    d6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e6) {
+                        if (resutl == "")
+                            if (e6 == "") {
+                                if (playerSlot) {
+                                    e6 = x
+                                } else {
+                                    e6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f6) {
+                        if (resutl == "")
+                            if (f6 == "") {
+                                if (playerSlot) {
+                                    f6 = x
+                                } else {
+                                    f6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g6) {
+                        if (resutl == "")
+                            if (g6 == "") {
+                                if (playerSlot) {
+                                    g6 = x
+                                } else {
+                                    g6 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 5
+                Row {
+                    // a5
+                    ViTri(a5) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a5 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a5 = x
+                                } else {
+                                    a5 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b5
+                    ViTri(b5) {
+                        if (resutl == "")
+                            if (b5 == "") {
+                                if (playerSlot) {
+                                    b5 = x
+                                } else {
+                                    b5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c5
+                    ViTri(c5) {
+                        if (resutl == "")
+                            if (c5 == "") {
+                                if (playerSlot) {
+                                    c5 = x
+                                } else {
+                                    c5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d5) {
+                        if (resutl == "")
+                            if (d5 == "") {
+                                if (playerSlot) {
+                                    d5 = x
+                                } else {
+                                    d5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e5) {
+                        if (resutl == "")
+                            if (e5 == "") {
+                                if (playerSlot) {
+                                    e5 = x
+                                } else {
+                                    e5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f5) {
+                        if (resutl == "")
+                            if (f5 == "") {
+                                if (playerSlot) {
+                                    f5 = x
+                                } else {
+                                    f5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g5) {
+                        if (resutl == "")
+                            if (g5 == "") {
+                                if (playerSlot) {
+                                    g5 = x
+                                } else {
+                                    g5 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 4
+                Row {
+                    // a4
+                    ViTri(a4) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a4 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a4 = x
+                                } else {
+                                    a4 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b4
+                    ViTri(b4) {
+                        if (resutl == "")
+                            if (b4 == "") {
+                                if (playerSlot) {
+                                    b4 = x
+                                } else {
+                                    b4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c4
+                    ViTri(c4) {
+                        if (resutl == "")
+                            if (c4 == "") {
+                                if (playerSlot) {
+                                    c4 = x
+                                } else {
+                                    c4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d4) {
+                        if (resutl == "")
+                            if (d4 == "") {
+                                if (playerSlot) {
+                                    d4 = x
+                                } else {
+                                    d4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e4) {
+                        if (resutl == "")
+                            if (e4 == "") {
+                                if (playerSlot) {
+                                    e4 = x
+                                } else {
+                                    e4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f4) {
+                        if (resutl == "")
+                            if (f4 == "") {
+                                if (playerSlot) {
+                                    f4 = x
+                                } else {
+                                    f4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g4) {
+                        if (resutl == "")
+                            if (g4 == "") {
+                                if (playerSlot) {
+                                    g4 = x
+                                } else {
+                                    g4 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 3
+                Row {
+                    // a3
+                    ViTri(a3) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a3 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a3 = x
+                                } else {
+                                    a3 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b3
+                    ViTri(b3) {
+                        if (resutl == "")
+                            if (b3 == "") {
+                                if (playerSlot) {
+                                    b3 = x
+                                } else {
+                                    b3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c3
+                    ViTri(c3) {
+                        if (resutl == "")
+                            if (c3 == "") {
+                                if (playerSlot) {
+                                    c3 = x
+                                } else {
+                                    c3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d3) {
+                        if (resutl == "")
+                            if (d3 == "") {
+                                if (playerSlot) {
+                                    d3 = x
+                                } else {
+                                    d3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e3) {
+                        if (resutl == "")
+                            if (e3 == "") {
+                                if (playerSlot) {
+                                    e3 = x
+                                } else {
+                                    e3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f3) {
+                        if (resutl == "")
+                            if (f3 == "") {
+                                if (playerSlot) {
+                                    f3 = x
+                                } else {
+                                    f3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g3) {
+                        if (resutl == "")
+                            if (g3 == "") {
+                                if (playerSlot) {
+                                    g3 = x
+                                } else {
+                                    g3 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 2
+                Row {
+                    // a2
+                    ViTri(a2) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a2 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a2 = x
+                                } else {
+                                    a2 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b2
+                    ViTri(b2) {
+                        if (resutl == "")
+                            if (b2 == "") {
+                                if (playerSlot) {
+                                    b2 = x
+                                } else {
+                                    b2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c2
+                    ViTri(c2) {
+                        if (resutl == "")
+                            if (c2 == "") {
+                                if (playerSlot) {
+                                    c2 = x
+                                } else {
+                                    c2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d2) {
+                        if (resutl == "")
+                            if (d2 == "") {
+                                if (playerSlot) {
+                                    d2 = x
+                                } else {
+                                    d2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e2) {
+                        if (resutl == "")
+                            if (e2 == "") {
+                                if (playerSlot) {
+                                    e2 = x
+                                } else {
+                                    e2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f2) {
+                        if (resutl == "")
+                            if (f2 == "") {
+                                if (playerSlot) {
+                                    f2 = x
+                                } else {
+                                    f2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g2) {
+                        if (resutl == "")
+                            if (g2 == "") {
+                                if (playerSlot) {
+                                    g2 = x
+                                } else {
+                                    g2 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                // hàng 1
+                Row {
+                    // a1
+                    ViTri(a1) {
+                        // nếu kết quả rỗng thì mới cho đánh
+                        if (resutl == "") {
+                            // nếu ô trống thì mới cho đánh
+                            if (a1 == "") {
+                                // nếu lượt của player 1 thì đánh x, ngược lại đánh o
+                                if (playerSlot) {
+                                    a1 = x
+                                } else {
+                                    a1 = o
+                                }
+                                // đổi lượt
+                                playerSlot = !playerSlot
+                            }
+                        }
+
+                        // nếu ô đã đánh rồi thì không cho đánh
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // b1
+                    ViTri(b1) {
+                        if (resutl == "")
+                            if (b1 == "") {
+                                if (playerSlot) {
+                                    b1 = x
+                                } else {
+                                    b1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    // c1
+                    ViTri(c1) {
+                        if (resutl == "")
+                            if (c1 == "") {
+                                if (playerSlot) {
+                                    c1 = x
+                                } else {
+                                    c1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(d1) {
+                        if (resutl == "")
+                            if (d1 == "") {
+                                if (playerSlot) {
+                                    d1 = x
+                                } else {
+                                    d1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(e1) {
+                        if (resutl == "")
+                            if (e1 == "") {
+                                if (playerSlot) {
+                                    e1 = x
+                                } else {
+                                    e1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(f1) {
+                        if (resutl == "")
+                            if (f1 == "") {
+                                if (playerSlot) {
+                                    f1 = x
+                                } else {
+                                    f1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    ViTri(g1) {
+                        if (resutl == "")
+                            if (g1 == "") {
+                                if (playerSlot) {
+                                    g1 = x
+                                } else {
+                                    g1 = o
+                                }
+                                playerSlot = !playerSlot
+                            }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
             }
 
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                if (resutl.isNotEmpty()) {
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.reset_animation))
+                    var isPlaying by rememberSaveable { mutableStateOf(false) }
+                    OutlinedButton(
+                        enabled = !isPlaying,
+                        onClick = {
+                            isPlaying = true
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(800)
+                                a1 = "";a2 = "";a3 = "";a4 = "";a5 = "";a6 = "";a7 = ""
+                                b1 = "";b2 = "";b3 = "";b4 = "";b5 = "";b6 = "";b7 = ""
+                                c1 = "";c2 = "";c3 = "";c4 = "";c5 = "";c6 = "";c7 = ""
+                                d1 = "";d2 = "";d3 = "";d4 = "";d5 = "";d6 = "";d7 = ""
+                                e1 = "";e2 = "";e3 = "";e4 = "";e5 = "";e6 = "";e7 = ""
+                                f1 = "";f2 = "";f3 = "";f4 = "";f5 = "";f6 = "";f7 = ""
+                                g1 = "";g2 = "";g3 = "";g4 = "";g5 = "";g6 = "";g7 = ""
+                                resutl = "";playerSlot = true
+                            }
+                        }) {
+                        if (isPlaying) {
+                            LottieAnimation(
+                                composition,
+                                modifier = Modifier.size(40.dp),
+                                isPlaying = isPlaying
+                            )
+                        } else {
+                            Text(
+                                text = "Reset",
+                                fontSize = 30.sp,
+                                color = Color("#4285F4".toColorInt()),
+                                fontWeight = FontWeight(500),
+                            )
+                        }
+                    }
+
+
+                } else {
+                    Spacer(modifier = Modifier.width(50.dp))
+                }
+
+            }
         }
     }
 }
